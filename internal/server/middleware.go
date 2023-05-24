@@ -72,31 +72,23 @@ func GitHubApp(ghRepo biz.GitHubRepo) http.FilterFunc {
 					return
 				} else {
 					if dataUser != nil {
-						if _, err := ghRepo.DeleteByGhId(context.Background(), dataUser.Id); err != nil {
-							fmt.Fprintf(w, "Failed: %s\n", err.Error())
+						if _, err := ghRepo.DeleteByGhId(context.Background(), dataUser.Id); err != nil && err != gorm.ErrRecordNotFound {
+							fmt.Fprintf(w, "Failed to delete session: %s\n", err.Error())
 							return
-						}
-						if res, err := ghRepo.Save(context.Background(), &model.Session{
-							Id:   uuid.NewString(),
-							GhId: ghUser.Id,
-						}); err != nil {
-							fmt.Fprintf(w, "Failed: %s\n", err.Error())
-						} else {
-							fmt.Fprintf(w, "Logged in, session id: %s\n", res.Id)
 						}
 					} else {
 						if _, err := ghRepo.SaveUser(context.Background(), ghUser); err != nil {
-							fmt.Fprintf(w, "Failed: %s\n", err.Error())
+							fmt.Fprintf(w, "Failed to save user: %s\n", err.Error())
 							return
 						}
-						if res, err := ghRepo.Save(context.Background(), &model.Session{
-							Id:   uuid.NewString(),
-							GhId: ghUser.Id,
-						}); err != nil {
-							fmt.Fprintf(w, "Failed: %s\n", err.Error())
-						} else {
-							fmt.Fprintf(w, "Logged in, session id: %s\n", res.Id)
-						}
+					}
+					if res, err := ghRepo.Save(context.Background(), &model.Session{
+						Id:   uuid.NewString(),
+						GhId: ghUser.Id,
+					}); err != nil {
+						fmt.Fprintf(w, "Failed to save session: %s\n", err.Error())
+					} else {
+						fmt.Fprintf(w, "Logged in, session id: %s\n", res.Id)
 					}
 				}
 				return
@@ -112,9 +104,9 @@ func GitHubAuthenticator(config *conf.Config, ghRepo biz.GitHubRepo) middleware.
 		return func(ctx context.Context, req interface{}) (reply interface{}, err error) {
 			if config.Env == "prod" {
 				if tr, ok := http.RequestFromServerContext(ctx); ok {
+					sessionToken := tr.Header.Get("Session")
 					if !strings.HasPrefix(tr.URL.Path, "/github") {
 						authToken := tr.Header.Get("Authorization")
-						sessionToken := tr.Header.Get("Session")
 						valid := false
 						if sessionToken != "" {
 							valid, err = validateSession(ghRepo, sessionToken)
@@ -129,6 +121,9 @@ func GitHubAuthenticator(config *conf.Config, ghRepo biz.GitHubRepo) middleware.
 								return nil, errors.New("please include a valid Authorization/Session header")
 							}
 						}
+					}
+					if sessionToken != "" {
+						ctx = context.WithValue(ctx, model.SessionKey("session"), sessionToken)
 					}
 				} else {
 					return nil, errors.New("failed context retrieval")

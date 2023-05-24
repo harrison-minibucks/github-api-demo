@@ -7,16 +7,10 @@ info:
     version: 0.0.1
 paths:
     /github/avatar:
-        post:
+        get:
             tags:
                 - GitHub
             operationId: GitHub_Avatar
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/github.v1.AvatarRequest'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -49,16 +43,10 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/github.v1.ListUsersReply'
     /github/logout:
-        post:
+        get:
             tags:
                 - GitHub
             operationId: GitHub_Logout
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/github.v1.LogoutRequest'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -136,10 +124,9 @@ components:
     schemas:
         github.v1.AvatarReply:
             type: object
-            properties: {}
-        github.v1.AvatarRequest:
-            type: object
-            properties: {}
+            properties:
+                avatarUrl:
+                    type: string
         github.v1.ListSessionsReply:
             type: object
             properties:
@@ -156,10 +143,9 @@ components:
                         $ref: '#/components/schemas/github.v1.User'
         github.v1.LogoutReply:
             type: object
-            properties: {}
-        github.v1.LogoutRequest:
-            type: object
-            properties: {}
+            properties:
+                loggedOut:
+                    type: boolean
         github.v1.Session:
             type: object
             properties:

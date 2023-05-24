@@ -9,7 +9,8 @@ GET http://localhost:8000/github/list-sessions HTTP/1.1
 
 ### Get your avatar
 GET http://localhost:8000/github/avatar HTTP/1.1
-Session: 9c071ff2-3190-46fe-b9f9-852f7e259331
+Session: 53ffd8e7-2a9c-4006-8de7-f9de4093c5ec
 
 ### Logout from session
 GET http://localhost:8000/github/logout HTTP/1.1
+Session: 53ffd8e7-2a9c-4006-8de7-f9de4093c5ec

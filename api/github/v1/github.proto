@@ -22,14 +22,12 @@ service GitHub {
   }
   rpc Avatar (AvatarRequest) returns (AvatarReply) {
     option (google.api.http) = {
-      post: "/github/avatar",
-      body: "*"
+      get: "/github/avatar"
     };
   }
   rpc Logout (LogoutRequest) returns (LogoutReply) {
     option (google.api.http) = {
-      post: "/github/logout",
-      body: "*"
+      get: "/github/logout"
     };
   }
 }
@@ -57,8 +55,12 @@ message ListSessionsReply {
 
 message AvatarRequest {}
 
-message AvatarReply {}
+message AvatarReply {
+  string avatar_url = 1;
+}
 
 message LogoutRequest {}
 
-message LogoutReply {}
+message LogoutReply {
+  bool loggedOut = 1;
+}

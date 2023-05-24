@@ -28,9 +28,11 @@ Run `make test` to run unit tests
 
 ## HTTP API Testing
 1. Please refer to the file `./rests/todo-api.http` and `./rests/gh-api.http` (Install [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) in VSCode for easier testing).
-2. You can head to http://localhost:8000/github/login to login into your GitHub App, and a `Session` will be returned
-3. You could either use `Authorization` with GitHub PAT, or use `Session` with the session ID returned as your header
+2. Or, you can head to [Swagger](https://editor.swagger.io/) and paste the contents in `openapi.yaml`
+3. You can head to http://localhost:8000/github/login to login into your GitHub App, and a `Session` will be returned
+4. You could either use `Authorization` with GitHub PAT, or use `Session` with the session ID returned as your header
 
+**/github/avatar and /github/logout is not implemented yet**
 *GRPC server is not started.*
 
 ## Others

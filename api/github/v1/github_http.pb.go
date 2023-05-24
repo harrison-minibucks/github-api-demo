@@ -35,8 +35,8 @@ func RegisterGitHubHTTPServer(s *http.Server, srv GitHubHTTPServer) {
 	r := s.Route("/")
 	r.GET("/github/list-users", _GitHub_ListUsers0_HTTP_Handler(srv))
 	r.GET("/github/list-sessions", _GitHub_ListSessions0_HTTP_Handler(srv))
-	r.POST("/github/avatar", _GitHub_Avatar0_HTTP_Handler(srv))
-	r.POST("/github/logout", _GitHub_Logout0_HTTP_Handler(srv))
+	r.GET("/github/avatar", _GitHub_Avatar0_HTTP_Handler(srv))
+	r.GET("/github/logout", _GitHub_Logout0_HTTP_Handler(srv))
 }
 
 func _GitHub_ListUsers0_HTTP_Handler(srv GitHubHTTPServer) func(ctx http.Context) error {
@@ -80,7 +80,7 @@ func _GitHub_ListSessions0_HTTP_Handler(srv GitHubHTTPServer) func(ctx http.Cont
 func _GitHub_Avatar0_HTTP_Handler(srv GitHubHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in AvatarRequest
-		if err := ctx.Bind(&in); err != nil {
+		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationGitHubAvatar)
@@ -99,7 +99,7 @@ func _GitHub_Avatar0_HTTP_Handler(srv GitHubHTTPServer) func(ctx http.Context) e
 func _GitHub_Logout0_HTTP_Handler(srv GitHubHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in LogoutRequest
-		if err := ctx.Bind(&in); err != nil {
+		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationGitHubLogout)
@@ -133,10 +133,10 @@ func NewGitHubHTTPClient(client *http.Client) GitHubHTTPClient {
 func (c *GitHubHTTPClientImpl) Avatar(ctx context.Context, in *AvatarRequest, opts ...http.CallOption) (*AvatarReply, error) {
 	var out AvatarReply
 	pattern := "/github/avatar"
-	path := binding.EncodeURL(pattern, in, false)
+	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationGitHubAvatar))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -172,10 +172,10 @@ func (c *GitHubHTTPClientImpl) ListUsers(ctx context.Context, in *ListRequest, o
 func (c *GitHubHTTPClientImpl) Logout(ctx context.Context, in *LogoutRequest, opts ...http.CallOption) (*LogoutReply, error) {
 	var out LogoutReply
 	pattern := "/github/logout"
-	path := binding.EncodeURL(pattern, in, false)
+	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationGitHubLogout))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -51,3 +51,22 @@ func (s *GitHubService) ListSessions(ctx context.Context, in *v1.ListRequest) (*
 }
 
 // TODO: Get Avatar
+func (s *GitHubService) Avatar(ctx context.Context, in *v1.AvatarRequest) (*v1.AvatarReply, error) {
+	res, err := s.uc.GetAvatar(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &v1.AvatarReply{
+		AvatarUrl: res.AvatarURL,
+	}, nil
+}
+
+func (s *GitHubService) Logout(ctx context.Context, in *v1.LogoutRequest) (*v1.LogoutReply, error) {
+	res, err := s.uc.Logout(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &v1.LogoutReply{
+		LoggedOut: res,
+	}, nil
+}
