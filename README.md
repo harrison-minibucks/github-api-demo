@@ -14,9 +14,10 @@ This is a simple API demo that can authorize user with either a GitHub Token, or
 3. Otherwise, you may use GitHub PAT for the `Authorization` header to test the API
 
 ## Development
-1. Run `go mod tidy`
-2. Run `make db`
-3. Run `make run`
+1. Set `go env -w GO111MODULE=on` (to accomodaate Kratos)
+2. Run `go mod tidy`
+3. Run `make db`
+4. Run `make run`
 
 ## Docker Setup
 1. Install [Docker](https://docs.docker.com/engine/install/)
