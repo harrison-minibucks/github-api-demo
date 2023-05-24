@@ -1,0 +1,18 @@
+### GitHub App Login
+GET http://localhost:3000/auth/github HTTP/1.1
+
+### Set GitHub Session (using data provided from browser GitHub Login)
+POST http://localhost:3000/auth/github/set HTTP/1.1
+content-type: application/json
+
+{}
+
+### Get your avatar
+GET http://localhost:3000/get/avatar HTTP/1.1
+
+### Logout from session
+GET http://localhost:3000/auth/github/logout HTTP/1.1
+
+### Login with token
+GET http://localhost:3000/auth/github/token HTTP/1.1
+Authorization: github_token
