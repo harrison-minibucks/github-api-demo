@@ -45,6 +45,7 @@ func (uc *TodoUsecase) List(ctx context.Context) ([]*TodoItem, error) {
 }
 
 func (uc *TodoUsecase) Delete(ctx context.Context, item *TodoItem) ([]*TodoItem, error) {
+	// Check if Item ID / title is present
 	if item.Id != "" {
 		uc.log.WithContext(ctx).Infof("Delete TODO Item: %v", item.Id)
 		res, err := uc.repo.DeleteByID(ctx, item.Id)

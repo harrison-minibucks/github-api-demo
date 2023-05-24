@@ -33,7 +33,10 @@ func (s *TodoService) Add(ctx context.Context, in *v1.AddRequest) (*v1.AddReply,
 	if err != nil {
 		return nil, err
 	}
-	return &v1.AddReply{Message: "Added " + res.Title}, nil
+	return &v1.AddReply{
+		Message: "Added " + res.Title,
+		Item:    mapItem(res),
+	}, nil
 }
 
 func (s *TodoService) List(ctx context.Context, in *v1.ListRequest) (*v1.ListReply, error) {
@@ -49,7 +52,6 @@ func (s *TodoService) List(ctx context.Context, in *v1.ListRequest) (*v1.ListRep
 }
 
 func (s *TodoService) Delete(ctx context.Context, in *v1.DeleteRequest) (*v1.DeleteReply, error) {
-	// Check if Item ID / title is present
 	items, err := s.uc.Delete(ctx, &biz.TodoItem{
 		Id:    in.Id,
 		Title: in.Title,

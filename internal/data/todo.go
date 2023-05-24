@@ -34,7 +34,7 @@ func (r *todoRepo) Save(ctx context.Context, item *biz.TodoItem) (*biz.TodoItem,
 	}); err != nil {
 		return nil, err
 	}
-	return item, nil
+	return mapTodoItem(todoItem), nil
 }
 
 func (r *todoRepo) Update(ctx context.Context, todoitem *biz.TodoItem) (*biz.TodoItem, error) {

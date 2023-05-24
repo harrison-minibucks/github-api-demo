@@ -17,6 +17,7 @@ func NewGitHubService(uc *biz.GitHubUsecase) *GitHubService {
 	return &GitHubService{uc: uc}
 }
 
+// No user access checking for now
 func (s *GitHubService) ListUsers(ctx context.Context, in *v1.ListRequest) (*v1.ListUsersReply, error) {
 	res, err := s.uc.ListUsers(ctx)
 	if err != nil {
@@ -33,6 +34,7 @@ func (s *GitHubService) ListUsers(ctx context.Context, in *v1.ListRequest) (*v1.
 	return reply, nil
 }
 
+// No user access checking for now
 func (s *GitHubService) ListSessions(ctx context.Context, in *v1.ListRequest) (*v1.ListSessionsReply, error) {
 	res, err := s.uc.ListSessions(ctx)
 	if err != nil {
@@ -47,3 +49,5 @@ func (s *GitHubService) ListSessions(ctx context.Context, in *v1.ListRequest) (*
 	}
 	return reply, nil
 }
+
+// TODO: Get Avatar

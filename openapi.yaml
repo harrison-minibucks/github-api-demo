@@ -183,6 +183,8 @@ components:
             properties:
                 message:
                     type: string
+                item:
+                    $ref: '#/components/schemas/todo.v1.Item'
         todo.v1.AddRequest:
             type: object
             properties:
