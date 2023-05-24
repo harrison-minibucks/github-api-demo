@@ -3,9 +3,69 @@
 
 openapi: 3.0.3
 info:
-    title: Todo API
+    title: ""
     version: 0.0.1
 paths:
+    /github/avatar:
+        post:
+            tags:
+                - GitHub
+            operationId: GitHub_Avatar
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/github.v1.AvatarRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.v1.AvatarReply'
+    /github/list-sessions:
+        get:
+            tags:
+                - GitHub
+            operationId: GitHub_ListSessions
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.v1.ListSessionsReply'
+    /github/list-users:
+        get:
+            tags:
+                - GitHub
+            operationId: GitHub_ListUsers
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.v1.ListUsersReply'
+    /github/logout:
+        post:
+            tags:
+                - GitHub
+            operationId: GitHub_Logout
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/github.v1.LogoutRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.v1.LogoutReply'
     /todo/add:
         post:
             tags:
@@ -74,6 +134,50 @@ paths:
                                 $ref: '#/components/schemas/todo.v1.MarkReply'
 components:
     schemas:
+        github.v1.AvatarReply:
+            type: object
+            properties: {}
+        github.v1.AvatarRequest:
+            type: object
+            properties: {}
+        github.v1.ListSessionsReply:
+            type: object
+            properties:
+                session:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/github.v1.Session'
+        github.v1.ListUsersReply:
+            type: object
+            properties:
+                user:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/github.v1.User'
+        github.v1.LogoutReply:
+            type: object
+            properties: {}
+        github.v1.LogoutRequest:
+            type: object
+            properties: {}
+        github.v1.Session:
+            type: object
+            properties:
+                id:
+                    type: string
+                ghId:
+                    type: integer
+                    format: uint32
+        github.v1.User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+                email:
+                    type: string
+                login:
+                    type: string
         todo.v1.AddReply:
             type: object
             properties:
@@ -134,4 +238,5 @@ components:
                 id:
                     type: string
 tags:
+    - name: GitHub
     - name: Todo

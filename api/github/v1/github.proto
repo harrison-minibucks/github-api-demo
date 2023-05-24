@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package github.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/harrison-minibucks/github-api-demo/api/github/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.github.v1";
+option java_outer_classname = "GithubProtoV1";
+
+service GitHub {
+  rpc ListUsers (ListRequest) returns (ListUsersReply) {
+    option (google.api.http) = {
+      get: "/github/list-users"
+    };
+  }
+  rpc ListSessions (ListRequest) returns (ListSessionsReply) {
+    option (google.api.http) = {
+      get: "/github/list-sessions"
+    };
+  }
+  rpc Avatar (AvatarRequest) returns (AvatarReply) {
+    option (google.api.http) = {
+      post: "/github/avatar",
+      body: "*"
+    };
+  }
+  rpc Logout (LogoutRequest) returns (LogoutReply) {
+    option (google.api.http) = {
+      post: "/github/logout",
+      body: "*"
+    };
+  }
+}
+
+message ListRequest {}
+
+message User {
+  uint32 id = 1;
+  string email = 2;
+  string login = 3;
+}
+
+message ListUsersReply {
+  repeated User user = 1;
+}
+
+message Session {
+  string id = 1;
+  uint32 gh_id = 2;
+}
+
+message ListSessionsReply {
+  repeated Session session = 1;
+}
+
+message AvatarRequest {}
+
+message AvatarReply {}
+
+message LogoutRequest {}
+
+message LogoutReply {}

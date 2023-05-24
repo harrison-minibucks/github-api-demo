@@ -13,4 +13,4 @@ data:
     username: postgres
     password: pgadmin
 config:
-  env: ${ENV:dev} # Will only validate GitHub token when set to "prod"
+  env: ${ENV:prod} # Will only validate GitHub token when set to "prod"

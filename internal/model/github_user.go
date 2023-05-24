@@ -5,8 +5,9 @@ import (
 )
 
 type GitHubUser struct {
+	Id           uint32    `json:"id" gorm:"primaryKey"`
 	Login        string    `json:"login"`
-	Id           uint32    `json:"id"`
+	Email        string    `json:"email"`
 	NodeId       string    `json:"node_id"`
 	AvatarURL    string    `json:"avatar_url"`
 	GravatarId   string    `json:"gravatar_id"`

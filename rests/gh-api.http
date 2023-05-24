@@ -1,18 +1,15 @@
 ### GitHub App Login
-GET http://localhost:8000/auth/github HTTP/1.1
+GET http://localhost:8000/github/login HTTP/1.1
 
-### Set GitHub Session (using data provided from browser GitHub Login)
-POST http://localhost:8000/auth/github/set HTTP/1.1
-content-type: application/json
+### GitHub App List Users
+GET http://localhost:8000/github/list-users HTTP/1.1
 
-{}
+### GitHub App List Sessions
+GET http://localhost:8000/github/list-sessions HTTP/1.1
 
 ### Get your avatar
-GET http://localhost:8000/get/avatar HTTP/1.1
+GET http://localhost:8000/github/avatar HTTP/1.1
+Session: 9c071ff2-3190-46fe-b9f9-852f7e259331
 
 ### Logout from session
-GET http://localhost:8000/auth/github/logout HTTP/1.1
-
-### Login with token
-GET http://localhost:8000/auth/github/token HTTP/1.1
-Authorization: github_token
+GET http://localhost:8000/github/logout HTTP/1.1

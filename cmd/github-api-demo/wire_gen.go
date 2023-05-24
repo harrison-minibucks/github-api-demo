@@ -23,7 +23,7 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, config *conf.Config, logger log.Logger) (*kratos.App, func(), error) {
+func wireApp(confServer *conf.Server, confData *conf.Data, config *conf.Config, gitHubApp *conf.GitHubApp, logger log.Logger) (*kratos.App, func(), error) {
 	db := data.NewDB(confData, logger)
 	dataData, cleanup, err := data.NewData(confData, db, logger)
 	if err != nil {
@@ -33,7 +33,10 @@ func wireApp(confServer *conf.Server, confData *conf.Data, config *conf.Config, 
 	todoUsecase := biz.NewTodoUsecase(todoRepo, logger)
 	todoService := service.NewTodoService(todoUsecase)
 	grpcServer := server.NewGRPCServer(confServer, todoService, logger)
-	httpServer := server.NewHTTPServer(confServer, config, todoService, logger)
+	gitHubRepo := data.NewGitHubRepo(dataData, logger)
+	gitHubUsecase := biz.NewGitHubUsecase(gitHubRepo, logger)
+	gitHubService := service.NewGitHubService(gitHubUsecase)
+	httpServer := server.NewHTTPServer(confServer, config, gitHubApp, gitHubRepo, todoService, gitHubService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

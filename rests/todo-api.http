@@ -1,6 +1,7 @@
 ### Add TODO Item
 POST http://localhost:8000/todo/add HTTP/1.1
 Authorization: gh_token
+Session: 9c071ff2-3190-46fe-b9f9-852f7e259331
 content-type: application/json
 
 {
@@ -13,6 +14,7 @@ content-type: application/json
 ### List TODO Items
 GET http://localhost:8000/todo/list HTTP/1.1
 Authorization: gh_token
+Session: 9c071ff2-3190-46fe-b9f9-852f7e259331
 
 ### Delete TODO Items (with same titles)
 POST http://localhost:8000/todo/delete HTTP/1.1

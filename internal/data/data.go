@@ -13,7 +13,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewTodoRepo, NewDB)
+var ProviderSet = wire.NewSet(NewData, NewTodoRepo, NewGitHubRepo, NewDB)
 
 // Data .
 type Data struct {
@@ -32,23 +32,6 @@ func NewData(c *conf.Data, db *gorm.DB, logger log.Logger) (*Data, func(), error
 	}, nil
 }
 
-// type contextTxKey struct{}
-
-// func (d *Data) InTx(ctx context.Context, fn func(ctx context.Context) error) error {
-// 	return d.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-// 		ctx = context.WithValue(ctx, contextTxKey{}, tx)
-// 		return fn(ctx)
-// 	})
-// }
-
-// func (d *Data) DB(ctx context.Context) *gorm.DB {
-// 	tx, ok := ctx.Value(contextTxKey{}).(*gorm.DB)
-// 	if ok {
-// 		return tx
-// 	}
-// 	return d.db
-// }
-
 // NewDB gorm Connecting to a Database
 func NewDB(conf *conf.Data, logger log.Logger) *gorm.DB {
 	log := log.NewHelper(log.With(logger, "module", "order-service/data/gorm"))
@@ -63,7 +46,7 @@ func NewDB(conf *conf.Data, logger log.Logger) *gorm.DB {
 	if err != nil {
 		log.Fatalf("failed opening connection to postgres: %v", err)
 	}
-	if err := db.AutoMigrate(&model.Item{}, &model.Session{}); err != nil {
+	if err := db.AutoMigrate(&model.Item{}, &model.Session{}, &model.GitHubUser{}); err != nil {
 		log.Fatal(err)
 	}
 	return db
