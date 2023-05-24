@@ -58,6 +58,9 @@ docker:
 compose:
 	docker compose up
 
+test:
+	go test ./...
+
 .PHONY: wire
 wire:
 	go mod tidy

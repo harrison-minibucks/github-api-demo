@@ -36,6 +36,9 @@ func NewTodoUsecase(repo TodoRepo, logger log.Logger) *TodoUsecase {
 
 func (uc *TodoUsecase) AddItem(ctx context.Context, item *TodoItem) (*TodoItem, error) {
 	uc.log.WithContext(ctx).Infof("Add TODO Item: %v", item.Title)
+	if item.Title == "" || item.Description == "" {
+		return nil, errors.New("please provide a title and description")
+	}
 	return uc.repo.Save(ctx, item)
 }
 

@@ -23,9 +23,6 @@ func (s *TodoService) Add(ctx context.Context, in *v1.AddRequest) (*v1.AddReply,
 	if in == nil || in.Item == nil {
 		return nil, errors.New("please provide todo item")
 	}
-	if in.Item.Title == "" || in.Item.Description == "" {
-		return nil, errors.New("please provide a title and description")
-	}
 	res, err := s.uc.AddItem(ctx, &biz.TodoItem{
 		Title:       in.Item.Title,
 		Description: in.Item.Description,
