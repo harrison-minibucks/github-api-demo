@@ -24,6 +24,10 @@ import (
 )
 
 func initGoth(conf *conf.GitHubApp) {
+	if conf == nil || conf.ClientId == "" || conf.ClientSecret == "" || conf.CallbackUrl == "" {
+		fmt.Println("GitHubApp will not be initialized")
+		return
+	}
 	goth.UseProviders(
 		github.New(conf.ClientId, conf.ClientSecret, conf.CallbackUrl, "user:email"),
 	)
