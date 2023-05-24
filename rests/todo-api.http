@@ -19,7 +19,7 @@ POST http://localhost:8000/todo/delete HTTP/1.1
 content-type: application/json
 
 {
-    "title": "item 1"
+    "title": "item 2"
 }
 
 ### Delete TODO Item using ID (ID is prioritized if both title/id is present)
@@ -27,7 +27,7 @@ POST http://localhost:8000/todo/delete HTTP/1.1
 content-type: application/json
 
 {
-    "id": "6e125eaf-a732-4cdd-b603-e869e519a906"
+    "id": "bec22286-c729-47db-bc0d-c677009c420b"
 }
 
 ### Mark TODO Item complete
@@ -35,8 +35,5 @@ POST http://localhost:8000/todo/mark HTTP/1.1
 content-type: application/json
 
 {
-    "item": {
-        "title": "item 1",
-        "description": "my first todo item"
-    }
+    "id": "0ba4a40f-39d4-42cb-9a8b-aceb059c7c55"
 }

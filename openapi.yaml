@@ -89,6 +89,10 @@ components:
             properties:
                 message:
                     type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/todo.v1.Item'
         todo.v1.DeleteRequest:
             type: object
             properties:
@@ -122,10 +126,12 @@ components:
             properties:
                 message:
                     type: string
+                item:
+                    $ref: '#/components/schemas/todo.v1.Item'
         todo.v1.MarkRequest:
             type: object
             properties:
-                title:
+                id:
                     type: string
 tags:
     - name: Todo

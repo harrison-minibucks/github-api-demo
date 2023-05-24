@@ -50,11 +50,34 @@ func (s *TodoService) List(ctx context.Context, in *v1.ListRequest) (*v1.ListRep
 
 func (s *TodoService) Delete(ctx context.Context, in *v1.DeleteRequest) (*v1.DeleteReply, error) {
 	// Check if Item ID / title is present
-	return &v1.DeleteReply{Message: "TODO: Implement Delete"}, nil
+	items, err := s.uc.Delete(ctx, &biz.TodoItem{
+		Id:    in.Id,
+		Title: in.Title,
+	})
+	if err != nil {
+		return nil, err
+	}
+	replyList := []*v1.Item{}
+	for i := 0; i < len(items); i++ {
+		replyList = append(replyList, mapItem(items[i]))
+	}
+	return &v1.DeleteReply{
+		Message: "Deleted the following items",
+		Items:   replyList,
+	}, nil
 }
 
 func (s *TodoService) Mark(ctx context.Context, in *v1.MarkRequest) (*v1.MarkReply, error) {
-	return &v1.MarkReply{Message: "TODO: Implement Mark"}, nil
+	res, err := s.uc.Mark(ctx, &biz.TodoItem{
+		Id: in.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &v1.MarkReply{
+		Message: "Marked Item as complete",
+		Item:    mapItem(res),
+	}, nil
 }
 
 func mapItem(item *biz.TodoItem) *v1.Item {

@@ -65,12 +65,14 @@ message DeleteRequest {
 
 message DeleteReply {
   string message = 1;
+  repeated Item items = 2;
 }
 
 message MarkRequest {
-  string title = 1;
+  string id = 1;
 }
 
 message MarkReply {
   string message = 1;
+  Item item = 2;
 }

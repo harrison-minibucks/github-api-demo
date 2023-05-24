@@ -53,6 +53,41 @@ func (r *todoRepo) Update(ctx context.Context, todoitem *biz.TodoItem) (*biz.Tod
 	return mapTodoItem(item), nil
 }
 
+func (r *todoRepo) DeleteByID(ctx context.Context, id string) (*biz.TodoItem, error) {
+	item := &model.Item{
+		Id: id,
+	}
+	if err := r.data.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.First(&item).Error; err != nil {
+			return err
+		}
+		return tx.Delete(&item).Error
+	}); err != nil {
+		return nil, err
+	}
+	return mapTodoItem(item), nil
+}
+
+func (r *todoRepo) DeleteByTitle(ctx context.Context, title string) ([]*biz.TodoItem, error) {
+	item := &model.Item{
+		Title: title,
+	}
+	deletedModels := []*model.Item{}
+	if err := r.data.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("title = ?", item.Title).Find(&deletedModels).Error; err != nil {
+			return err
+		}
+		return tx.Delete(&model.Item{}, "title = ?", item.Title).Error
+	}); err != nil {
+		return nil, err
+	}
+	deletedItems := []*biz.TodoItem{}
+	for i := 0; i < len(deletedModels); i++ {
+		deletedItems = append(deletedItems, mapTodoItem(deletedModels[i]))
+	}
+	return deletedItems, nil
+}
+
 func (r *todoRepo) FindByID(ctx context.Context, id string) (*biz.TodoItem, error) {
 	item := &model.Item{
 		Id: id,
@@ -61,10 +96,6 @@ func (r *todoRepo) FindByID(ctx context.Context, id string) (*biz.TodoItem, erro
 		return nil, err
 	}
 	return mapTodoItem(item), nil
-}
-
-func (r *todoRepo) ListByHello(context.Context, string) ([]*biz.TodoItem, error) {
-	return nil, nil
 }
 
 func (r *todoRepo) ListAll(context.Context) ([]*biz.TodoItem, error) {
