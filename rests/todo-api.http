@@ -16,6 +16,7 @@ Authorization: gh_token
 
 ### Delete TODO Items (with same titles)
 POST http://localhost:8000/todo/delete HTTP/1.1
+Authorization: gh_token
 content-type: application/json
 
 {
@@ -24,6 +25,7 @@ content-type: application/json
 
 ### Delete TODO Item using ID (ID is prioritized if both title/id is present)
 POST http://localhost:8000/todo/delete HTTP/1.1
+Authorization: gh_token
 content-type: application/json
 
 {
@@ -32,6 +34,7 @@ content-type: application/json
 
 ### Mark TODO Item complete
 POST http://localhost:8000/todo/mark HTTP/1.1
+Authorization: gh_token
 content-type: application/json
 
 {
