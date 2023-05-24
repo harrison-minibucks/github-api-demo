@@ -1,0 +1,42 @@
+### Add TODO Item
+POST http://localhost:8000/todo/add HTTP/1.1
+Authorization: gh_token
+content-type: application/json
+
+{
+    "item": {
+        "title": "item 1",
+        "description": "my first todo item"
+    }
+}
+
+### List TODO Items
+GET http://localhost:8000/todo/list HTTP/1.1
+Authorization: gh_token
+
+### Delete TODO Items (with same titles)
+POST http://localhost:8000/todo/delete HTTP/1.1
+content-type: application/json
+
+{
+    "title": "item 1"
+}
+
+### Delete TODO Item using ID (ID is prioritized if both title/id is present)
+POST http://localhost:8000/todo/delete HTTP/1.1
+content-type: application/json
+
+{
+    "id": "6e125eaf-a732-4cdd-b603-e869e519a906"
+}
+
+### Mark TODO Item complete
+POST http://localhost:8000/todo/mark HTTP/1.1
+content-type: application/json
+
+{
+    "item": {
+        "title": "item 1",
+        "description": "my first todo item"
+    }
+}

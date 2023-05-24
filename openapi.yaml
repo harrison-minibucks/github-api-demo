@@ -1,0 +1,131 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Todo API
+    version: 0.0.1
+paths:
+    /todo/add:
+        post:
+            tags:
+                - Todo
+            operationId: Todo_Add
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/todo.v1.AddRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/todo.v1.AddReply'
+    /todo/delete:
+        post:
+            tags:
+                - Todo
+            operationId: Todo_Delete
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/todo.v1.DeleteRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/todo.v1.DeleteReply'
+    /todo/list:
+        get:
+            tags:
+                - Todo
+            operationId: Todo_List
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/todo.v1.ListReply'
+    /todo/mark:
+        post:
+            tags:
+                - Todo
+            operationId: Todo_Mark
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/todo.v1.MarkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/todo.v1.MarkReply'
+components:
+    schemas:
+        todo.v1.AddReply:
+            type: object
+            properties:
+                message:
+                    type: string
+        todo.v1.AddRequest:
+            type: object
+            properties:
+                item:
+                    $ref: '#/components/schemas/todo.v1.Item'
+        todo.v1.DeleteReply:
+            type: object
+            properties:
+                message:
+                    type: string
+        todo.v1.DeleteRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                id:
+                    type: string
+        todo.v1.Item:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                marked:
+                    type: boolean
+                createdAt:
+                    type: string
+                    format: date-time
+        todo.v1.ListReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/todo.v1.Item'
+        todo.v1.MarkReply:
+            type: object
+            properties:
+                message:
+                    type: string
+        todo.v1.MarkRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+tags:
+    - name: Todo

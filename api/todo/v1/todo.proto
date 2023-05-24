@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package todo.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/harrison-minibucks/github-api-demo/api/todo/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.todo.v1";
+option java_outer_classname = "TodoProtoV1";
+
+service Todo {
+  rpc List (ListRequest) returns (ListReply) {
+    option (google.api.http) = {
+      get: "/todo/list"
+    };
+  }
+  rpc Add (AddRequest) returns (AddReply) {
+    option (google.api.http) = {
+      post: "/todo/add",
+      body: "*"
+    };
+  }
+  rpc Delete (DeleteRequest) returns (DeleteReply) {
+    option (google.api.http) = {
+      post: "/todo/delete",
+      body: "*"
+    };
+  }
+  rpc Mark (MarkRequest) returns (MarkReply) {
+    option (google.api.http) = {
+      post: "/todo/mark",
+      body: "*"
+    };
+  }
+}
+
+message Item {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  bool marked = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message ListRequest {}
+
+message ListReply {
+  repeated Item items = 1;
+}
+
+message AddRequest {
+  Item item = 1;
+}
+
+message AddReply {
+  string message = 1;
+}
+
+message DeleteRequest {
+  string title = 1;
+  string id = 2;
+}
+
+message DeleteReply {
+  string message = 1;
+}
+
+message MarkRequest {
+  string title = 1;
+}
+
+message MarkReply {
+  string message = 1;
+}

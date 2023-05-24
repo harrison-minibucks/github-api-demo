@@ -1,0 +1,20 @@
+version: "3.0"
+services:
+  todo:
+    image: github-api-demo:latest
+    build: .
+    restart: always
+    environment:
+      PROD_SOURCE: db
+      PROD_DEV: false
+    volumes:
+      - ./configs:/data/conf
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+  db:
+    image: "postgres:15.3-alpine"
+    environment:
+      POSTGRES_PASSWORD: pgadmin

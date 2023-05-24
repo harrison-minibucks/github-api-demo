@@ -1,0 +1,16 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+data:
+  database:
+    db_name: postgres
+    source: ${SOURCE:localhost} # Will use the SOURCE env variable if present (with prefix PROD_)
+    port: 5432
+    username: postgres
+    password: pgadmin
+config:
+  env: ${ENV:dev} # Will only validate GitHub token when set to "prod"
