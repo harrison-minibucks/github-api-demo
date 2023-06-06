@@ -14,6 +14,7 @@ type TodoItem struct {
 	Description string
 	Marked      bool
 	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type TodoRepo interface {

@@ -24,8 +24,10 @@ service Todo {
   }
   rpc Delete (DeleteRequest) returns (DeleteReply) {
     option (google.api.http) = {
-      post: "/todo/delete",
-      body: "*"
+      delete: "/todo/delete/{id}"
+      additional_bindings {
+        delete: "/todo/delete/title/{title}"
+      }
     };
   }
   rpc Mark (MarkRequest) returns (MarkReply) {
@@ -42,6 +44,7 @@ message Item {
   string description = 3;
   bool marked = 4;
   google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
 }
 
 message ListRequest {}
@@ -60,8 +63,10 @@ message AddReply {
 }
 
 message DeleteRequest {
-  string title = 1;
-  string id = 2;
+  oneof deleteLabel {
+    string title = 1;
+    string id = 2;
+  }
 }
 
 message DeleteReply {

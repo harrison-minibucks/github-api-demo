@@ -50,8 +50,8 @@ func (s *TodoService) List(ctx context.Context, in *v1.ListRequest) (*v1.ListRep
 
 func (s *TodoService) Delete(ctx context.Context, in *v1.DeleteRequest) (*v1.DeleteReply, error) {
 	items, err := s.uc.Delete(ctx, &biz.TodoItem{
-		Id:    in.Id,
-		Title: in.Title,
+		Id:    in.GetId(),
+		Title: in.GetTitle(),
 	})
 	if err != nil {
 		return nil, err
@@ -86,5 +86,6 @@ func mapItem(item *biz.TodoItem) *v1.Item {
 		Description: item.Description,
 		Marked:      item.Marked,
 		CreatedAt:   timestamppb.New(item.CreatedAt),
+		UpdatedAt:   timestamppb.New(item.UpdatedAt),
 	}
 }

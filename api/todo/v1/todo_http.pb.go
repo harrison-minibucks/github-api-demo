@@ -35,7 +35,8 @@ func RegisterTodoHTTPServer(s *http.Server, srv TodoHTTPServer) {
 	r := s.Route("/")
 	r.GET("/todo/list", _Todo_List0_HTTP_Handler(srv))
 	r.POST("/todo/add", _Todo_Add0_HTTP_Handler(srv))
-	r.POST("/todo/delete", _Todo_Delete0_HTTP_Handler(srv))
+	r.DELETE("/todo/delete/title/{title}", _Todo_Delete0_HTTP_Handler(srv))
+	r.DELETE("/todo/delete/{id}", _Todo_Delete1_HTTP_Handler(srv))
 	r.POST("/todo/mark", _Todo_Mark0_HTTP_Handler(srv))
 }
 
@@ -80,7 +81,32 @@ func _Todo_Add0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
 func _Todo_Delete0_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in DeleteRequest
-		if err := ctx.Bind(&in); err != nil {
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTodoDelete)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Delete(ctx, req.(*DeleteRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Todo_Delete1_HTTP_Handler(srv TodoHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationTodoDelete)
@@ -145,11 +171,11 @@ func (c *TodoHTTPClientImpl) Add(ctx context.Context, in *AddRequest, opts ...ht
 
 func (c *TodoHTTPClientImpl) Delete(ctx context.Context, in *DeleteRequest, opts ...http.CallOption) (*DeleteReply, error) {
 	var out DeleteReply
-	pattern := "/todo/delete"
-	path := binding.EncodeURL(pattern, in, false)
+	pattern := "/todo/delete/{id}"
+	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationTodoDelete))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

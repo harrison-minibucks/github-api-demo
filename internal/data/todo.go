@@ -117,5 +117,6 @@ func mapTodoItem(item *model.Item) *biz.TodoItem {
 		Description: item.Description,
 		Marked:      item.Marked,
 		CreatedAt:   item.CreatedAt,
+		UpdatedAt:   item.UpdatedAt,
 	}
 }

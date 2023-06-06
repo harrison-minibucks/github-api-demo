@@ -8,4 +8,5 @@ type Item struct {
 	Description string
 	Marked      bool
 	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }

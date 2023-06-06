@@ -72,17 +72,21 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/todo.v1.AddReply'
-    /todo/delete:
-        post:
+    /todo/delete/{id}:
+        delete:
             tags:
                 - Todo
             operationId: Todo_Delete
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/todo.v1.DeleteRequest'
-                required: true
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: title
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -185,13 +189,6 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/todo.v1.Item'
-        todo.v1.DeleteRequest:
-            type: object
-            properties:
-                title:
-                    type: string
-                id:
-                    type: string
         todo.v1.Item:
             type: object
             properties:
@@ -204,6 +201,9 @@ components:
                 marked:
                     type: boolean
                 createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
                     type: string
                     format: date-time
         todo.v1.ListReply:

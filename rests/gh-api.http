@@ -1,3 +1,5 @@
+### NOTE: GH API has no session validation, will return ErrRecordNotFound if it doesn't exist
+
 ### GitHub App Login
 GET http://localhost:8000/github/login HTTP/1.1
 

@@ -1,7 +1,7 @@
 ### Add TODO Item
 POST http://localhost:8000/todo/add HTTP/1.1
 Authorization: gh_token
-Session: 78fc444b-c0f7-432e-926e-8201687d2332
+Session: 1a3f48fd-1ab5-41f4-b075-0b858d26cb07
 content-type: application/json
 
 {
@@ -13,35 +13,35 @@ content-type: application/json
 
 ### List TODO Items
 GET http://localhost:8000/todo/list HTTP/1.1
-Authorization: gh_token
-Session: 78fc444b-c0f7-432e-926e-8201687d2332
+Authorization: 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
+Session: 1a3f48fd-1ab5-41f4-b075-0b858d26cb07
 
 ### Delete TODO Items (with same titles)
-POST http://localhost:8000/todo/delete HTTP/1.1
+DELETE http://localhost:8000/todo/delete/title/item%201 HTTP/1.1
 Authorization: gh_token
-Session: 78fc444b-c0f7-432e-926e-8201687d2332
+Session: 1a3f48fd-1ab5-41f4-b075-0b858d26cb07
 content-type: application/json
 
 {
-    "title": "item 2"
+    "title": "item 1"
 }
 
-### Delete TODO Item using ID (ID is prioritized if both title/id is present)
-POST http://localhost:8000/todo/delete HTTP/1.1
+### Delete TODO Item using ID
+DELETE http://localhost:8000/todo/delete/e48d80d1-04cd-4465-95e4-71e145d92f3d HTTP/1.1
 Authorization: gh_token
-Session: 78fc444b-c0f7-432e-926e-8201687d2332
+Session: 1a3f48fd-1ab5-41f4-b075-0b858d26cb07
 content-type: application/json
 
 {
-    "id": "b270b731-b701-4dc7-a1d6-3295d39633c6"
+    "id": "e48d80d1-04cd-4465-95e4-71e145d92f3d"
 }
 
 ### Mark TODO Item complete
 POST http://localhost:8000/todo/mark HTTP/1.1
 Authorization: gh_token
-Session: 78fc444b-c0f7-432e-926e-8201687d2332
+Session: 1a3f48fd-1ab5-41f4-b075-0b858d26cb07
 content-type: application/json
 
 {
-    "id": "05460d20-18dc-4f4f-b2e4-530530c3a4ec"
+    "id": "609e01ab-2228-44c7-b322-b2836e31d87a"
 }
